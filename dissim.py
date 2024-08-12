@@ -16,7 +16,7 @@ def numeric_dissimilarity(data,dissim):
         temp=[]
         for j in range(i+1):
             man_dist=(abs(data[i]-data[j]))/datarange
-            temp.append((man_dist//0.001)/1000)
+            temp.append(round(man_dist,2))
         dissim.append(temp)
     dissimilarity_matrix('Numeric',dissim)
 
@@ -24,7 +24,7 @@ def mixed_dissimilarity(num_dissim,nom_dissim,dissim):
     for i in range(len(nom_dissim)):
         temp=[]
         for j in range(i+1):
-            temp.append((((num_dissim[i][j]+nom_dissim[i][j])/2)//0.001)/1000)
+            temp.append(round((num_dissim[i][j]+nom_dissim[i][j])/2,2))
         dissim.append(temp)
     dissimilarity_matrix('Mixed',dissim)
   
