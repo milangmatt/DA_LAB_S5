@@ -10,6 +10,8 @@ def nominal_dissimilarity(data,dissim):
                 temp.append(1)
         dissim.append(temp)
     dissimilarity_matrix('Nominal',dissim)
+
+
 def numeric_dissimilarity(data,dissim):
     datarange =  max(data)-min(data)
     for i in range(len(data)):
@@ -20,6 +22,7 @@ def numeric_dissimilarity(data,dissim):
         dissim.append(temp)
     dissimilarity_matrix('Numeric',dissim)
 
+    
 def mixed_dissimilarity(num_dissim,nom_dissim,dissim):
     for i in range(len(nom_dissim)):
         temp=[]
@@ -38,7 +41,7 @@ def dissimilarity_matrix(type,dissim):
     print('-'*len(dissim))
     print()
 
-datfile=open("dissim.csv",'r')
+datfile=open("data.csv",'r')
 reader = csv.reader(datfile)
 
 nominal_data =[]

@@ -1,4 +1,3 @@
-
 n = int(input("Enter number of values: "))
 data=[]
 print("Enter data : ")

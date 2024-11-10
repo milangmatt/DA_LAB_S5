@@ -2,7 +2,7 @@ import numpy as np
 import math
 from collections import Counter
 
-datfile=open("statidat.csv",'r')
+datfile=open("data.csv",'r')
 datastr=datfile.read() 
 datastr=datastr.strip()
 datalist=datastr.split(',')
@@ -58,7 +58,3 @@ print(f"Mode Type: {mode_type}")
 #standard deviation
 std_dev=np.std(data)
 print(f"Standard deviation: {std_dev}")
-
-
-
-

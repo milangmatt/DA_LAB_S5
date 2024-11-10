@@ -1,0 +1,9 @@
+pepsi,Bread,milk,boost
+Bread,milk,boost,Eggs
+pepsi,milk,boost,Eggs
+Bread,pepsi,milk,boost
+milk,boost,Eggs,Beer
+pepsi,Bread,milk,Eggs
+Bread,pepsi,milk,Eggs
+pepsi,milk,boost,Beer
+Bread,milk,boost,Beer
