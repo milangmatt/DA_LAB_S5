@@ -1,21 +1,6 @@
 Statistical Description
 ================
 
-Table of Contents
------------------
-
-- [Statistical Description](#statistical-description)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-  - [Importing Libraries](#importing-libraries)
-  - [Loading Data](#loading-data)
-  - [Calculating Quantiles](#calculating-quantiles)
-  - [Removing Outliers](#removing-outliers)
-  - [Calculating Mean](#calculating-mean)
-  - [Calculating Median](#calculating-median)
-  - [Calculating Mode](#calculating-mode)
-  - [Calculating Standard Deviation](#calculating-standard-deviation)
-  - [Complete Code](#complete-code)
 
 Introduction
 ------------
