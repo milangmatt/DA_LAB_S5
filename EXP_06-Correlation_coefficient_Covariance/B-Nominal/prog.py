@@ -1,7 +1,7 @@
 import pandas as pd
 from scipy.stats import chi2_contingency
 
-df = pd.read_csv('data.csv')
+df = pd.read_csv('EXP_06-Correlation_coefficient_Covariance/B-Nominal/data.csv')
 print(df)
 
 

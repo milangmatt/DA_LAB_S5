@@ -4,7 +4,7 @@ import statistics as st
 import csv
 
 
-df = pd.read_csv('data.csv')
+df = pd.read_csv('EXP_06-Correlation_coefficient_Covariance/A-Numeric/data.csv')
 
 numeric_cols = df.select_dtypes(include=[np.number]).columns
 

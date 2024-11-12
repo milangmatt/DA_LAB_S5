@@ -107,7 +107,7 @@ def classify(tree, sample):
 
 # Main execution
 if __name__ == "__main__":
-    filename = 'data.csv'  # Name of your CSV file
+    filename = 'EXP_11-Decision_tree/data.csv'  # Name of your CSV file
     headers = ['age', 'income', 'student', 'credit_rating']  # Feature names
     training_data = read_csv_file(filename)
 

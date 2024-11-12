@@ -2,7 +2,7 @@ import numpy as np
 import math
 from collections import Counter
 
-datfile=open("data.csv",'r')
+datfile=open("EXP_04-Statistical_Description/data.csv",'r')
 datastr=datfile.read() 
 datastr=datastr.strip()
 datalist=datastr.split(',')

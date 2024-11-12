@@ -64,7 +64,7 @@ def read_transactions_from_csv(filename):
 
 
 
-filename = 'data.csv'
+filename = 'EXP_07-Apriori_Algorithm\data.csv'
 min_support = 2
 min_confidence = 0.7
 

@@ -41,7 +41,7 @@ def dissimilarity_matrix(type,dissim):
     print('-'*len(dissim))
     print()
 
-datfile=open("data.csv",'r')
+datfile=open("EXP_05-Dissimilarity_matrix/data.csv",'r')
 reader = csv.reader(datfile)
 
 nominal_data =[]

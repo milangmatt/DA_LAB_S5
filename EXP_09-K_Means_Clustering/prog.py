@@ -38,7 +38,7 @@ def kmeans(X, k, max_iters=100):
     return centroids, labels
 
 # Load the dataset from the CSV file
-data = pd.read_csv('data.csv')
+data = pd.read_csv('EXP_09-K_Means_Clustering/data.csv')
 X = data.values
 # Set the number of clusters
 k = 3

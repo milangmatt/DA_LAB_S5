@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 # Load CSV data
-data = pd.read_csv('data.csv')
+data = pd.read_csv('EXP_08-Back_propogation_algorithm/data.csv')
 X = data[['input1', 'input2']].values
 y = data['output'].values.reshape(-1, 1)
 
