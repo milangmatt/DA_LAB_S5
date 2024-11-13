@@ -24,6 +24,7 @@ def read_csv_file(filename):
             data.append((features, label))
     return data
 ```
+Each line in the file is stripped of the white spaces and split on ( , ) and is made into a list with two elements. The first element is a list of the features and the second element is the label.
 
 ---
 
@@ -31,7 +32,8 @@ def read_csv_file(filename):
 
 This function calculates the entropy of a dataset using the Shannon entropy formula:
 
-H(X) = - ∑ (p(x) \* log2(p(x)))
+$$H(X) = - ∑ (p(x) * log2(p(x)))$$
+
 
 where p(x) is the probability of each label.
 
@@ -52,6 +54,33 @@ def entropy(data):
 
     return ent
 ```
+This function first counts the number of each label in the dataset. Then it calculates the probability of each label by dividing the count of each label by the total number of samples. Finally, it calculates the entropy using the Shannon entropy formula.
+
+The input data would always be changing as the tree is split at every split point and changed to true branch and false branch.
+
+```python
+    total_samples = len(data) # number of rows
+    label_counts = {} # to count number of individual label
+```
+Empty Dictionary to store the count of labels is initialized.
+
+```python
+    for features, label in data:
+        if label not in label_counts:
+            label_counts[label] = 0
+        label_counts[label] += 1
+```
+The count for each label is recorded.
+
+```python
+    ent = 0
+    for label in label_counts:
+        prob = label_counts[label] / total_samples
+        ent -= prob * math.log2(prob)
+```
+The probability of each label is calculated and the entropy is calculated using the Shannon entropy formula.
+
+
 ---
 
 ## Split Dataset Based on a Feature and its Value
@@ -64,13 +93,24 @@ def split_data(data, index, value):
     false_branch = [row for row in data if row[0][index] != value]
     return true_branch, false_branch
 ```
+
+This function takes in the dataset, the index of the feature to split on, and the value to split on. It then uses list comprehension to create two lists: one for the rows where the feature at the given index has the given value, and one for the rows where it does not.
+
+`[row for row in data if row[0][index] == value]`
+
+This line of code is used to create a new list that includes only the rows where the feature at the given index has the given value.
+
+
 ---
 
 ## Find the Best Feature to Split on Using Information Gain
 
 This function finds the best feature to split on using the information gain formula:
 
-IG(X, Y) = H(X) - H(X|Y)
+$$IG(X, Y) = H(X) - H(X|Y)$$
+Total gain is Given by :
+
+$$gain = H(X) - (p * H(X|Y=true) + (1-p) * H(X|Y=false))$$
 
 where H(X) is the entropy of the dataset, and H(X|Y) is the conditional entropy of the dataset given the feature Y.
 
@@ -99,11 +139,49 @@ def find_best_split(data):
 
     return best_gain, best_index, best_value
 ```
+This function iterates over each feature in the dataset, and for each feature, it iterates over each unique value in that feature. It then uses the `split_data` function to split the data into two branches based on the current feature and value. It calculates the information gain by using the `entropy` function to calculate the entropy of the dataset and the two branches.
+
+```python
+    best_gain = 0
+    best_index = None
+    best_value = None
+    current_entropy = entropy(data)
+    n_features = len(data[0][0])
+```
+This code initializes the best gain, best index, and best value to 0, None, and None respectively. It also calculates the current entropy of the dataset.
+
+```python
+    for index in range(n_features):
+        values = set([row[0][index] for row in data])
+```
+This code iterates over each feature in the dataset and creates a set of unique values in that feature.
+
+```python
+        for value in values:
+            true_branch, false_branch = split_data(data, index, value)
+
+            if not true_branch or not false_branch:
+                continue
+```
+This code iterates over each unique value in the feature and splits the data into two branches based on the current feature and value. If either branch is empty, it skips to the next value.
+
+```python
+            p = len(true_branch) / len(data)
+            gain = current_entropy - p * entropy(true_branch) - (1 - p) * entropy(false_branch)
+```
+This code calculates the probability of the true branch and the information gain by using the `entropy` function.
+
+```python
+            if gain > best_gain:
+                best_gain, best_index, best_value = gain, index, value
+```
+This code checks if the current gain is greater than the best gain found so far, and if so updates the best gain, best index, and best value.
+
+
+
 ---
 
-## Build the Decision Tree Recursively
-
-This function builds the decision tree recursively by finding the best feature to split on and splitting the dataset accordingly.
+## Decision Node Class
 
 ```python
 class DecisionNode:
@@ -113,7 +191,15 @@ class DecisionNode:
         self.true_branch = true_branch
         self.false_branch = false_branch
         self.prediction = prediction
+```
+This class represents a decision node in the decision tree. It has attributes for the index of the feature used to split the data, the value of the feature used to split the data, the true branch and false branch of the node, and the prediction made by the node.
 
+
+## Build the Decision Tree Recursively
+
+This function builds the decision tree recursively by finding the best feature to split on and splitting the dataset accordingly.
+
+```python
 def build_tree(data):
     gain, index, value = find_best_split(data)
 
@@ -126,6 +212,25 @@ def build_tree(data):
 
     return DecisionNode(index=index, value=value, true_branch=true_node, false_branch=false_node)
 ```
+This function takes in the dataset and recursively builds the decision tree by finding the best feature to split on and splitting the dataset accordingly. If there is no further gain in splitting the data, it returns a leaf node with the prediction made by the majority vote of the data points in the dataset.
+
+`gain, index, value = find_best_split(data)` : This line finds the best feature to split on by calling the `find_best_split` function.
+
+```python
+    if gain == 0:  # No further gain, return a leaf node
+        return DecisionNode(prediction=data[0][1])
+```
+This line checks if there is no further gain in splitting the data. If so, it returns a leaf node with the prediction made by the majority vote of the data points in the dataset.
+
+```python
+true_branch, false_branch = split_data(data, index, value)
+    true_node = build_tree(true_branch)
+    false_node = build_tree(false_branch)
+
+    return DecisionNode(index=index, value=value, true_branch=true_node, false_branch=false_node)
+```
+This block of code splits the dataset into two branches based on the best feature to split on and recursively builds the decision tree for each branch.
+
 ---
 
 ## Print the Decision Tree
@@ -145,6 +250,16 @@ def print_tree(node, headers, spacing="", level=0):
     print(spacing + '  ' * level + '  |--> False:')
     print_tree(node.false_branch, headers, spacing + '  ', level + 1)
 ```
+This function takes in the decision tree node, the headers of the dataset, and the current spacing and level of indentation. It prints the decision tree in a readable format by recursively calling itself for the true and false branches of the node.
+
+```python
+    if node.prediction is not None:
+        print(spacing*2 + f"Predict: {node.prediction}")
+        return
+```
+This line checks if the node is a leaf node. If so, it prints the prediction made by the majority vote of the data points in the dataset.
+
+
 ---
 
 ## Classify a New Sample Using the Decision Tree
@@ -161,6 +276,24 @@ def classify(tree, sample):
     else:
         return classify(tree.false_branch, sample)
 ```
+This function takes in the decision tree and a sample to classify. It recursively traverses the decision tree based on the feature values of the sample and returns the predicted class.
+
+```python
+    if tree.prediction is not None:
+        return tree.prediction
+```
+This line checks if the node is a leaf node. If so, it returns the prediction made by the majority vote of the data points in the dataset.
+
+```python
+    if sample[tree.index] == tree.value:
+        return classify(tree.true_branch, sample)
+    else:
+        return classify(tree.false_branch, sample)
+```
+This code recursively traverses the decision tree based on the feature values of the sample.
+
+
+
 ---
 
 ## Main Execution
@@ -178,7 +311,7 @@ if __name__ == "__main__":
     print("Decision Tree Structure:")
     print_tree(tree, headers)
 
-    # Classify a new sample: X = (age=youth, income=medium, student=yes, credit_rating=fair)
+
     print("Select features for new sample:")
     age = input("Enter age (youth,middle_aged, senior): ")
     income = input("Enter income (low, medium, high): ")
