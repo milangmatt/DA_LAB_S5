@@ -108,6 +108,7 @@ This line of code is used to create a new list that includes only the rows where
 This function finds the best feature to split on using the information gain formula:
 
 $$IG(X, Y) = H(X) - H(X|Y)$$
+
 Total gain is Given by :
 
 $$gain = H(X) - (p * H(X|Y=true) + (1-p) * H(X|Y=false))$$
